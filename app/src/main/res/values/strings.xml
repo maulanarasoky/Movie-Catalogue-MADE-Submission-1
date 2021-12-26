@@ -2,5 +2,6 @@
     <string name="app_name">Movie Catalogue MADE Submission 1</string>
     <string name="txt_movie">Movie</string>
     <string name="txt_favorite">Favorite</string>
+    <string name="txt_something_wrong">Oops.. something went wrong</string>
     <string name="txt_home_fragment">Home fragment</string>
 </resources>
