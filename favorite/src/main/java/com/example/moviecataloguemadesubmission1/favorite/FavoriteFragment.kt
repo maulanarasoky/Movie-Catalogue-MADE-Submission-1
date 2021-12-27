@@ -1,4 +1,4 @@
-package com.example.moviecataloguemadesubmission1.home
+package com.example.moviecataloguemadesubmission1.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.moviecataloguemadesubmission1.R
-import com.example.moviecataloguemadesubmission1.core.data.Resource
 import com.example.moviecataloguemadesubmission1.core.ui.MovieAdapter
-import com.example.moviecataloguemadesubmission1.databinding.FragmentHomeBinding
 import com.example.moviecataloguemadesubmission1.detail.DetailMovieActivity
+import com.example.moviecataloguemadesubmission1.favorite.databinding.FragmentFavoriteBinding
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
-class HomeFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModel()
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -26,7 +25,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -35,6 +34,8 @@ class HomeFragment : Fragment() {
 
         if (activity != null) {
 
+            loadKoinModules(favoriteModule)
+
             val movieAdapter = MovieAdapter()
             movieAdapter.onItemClick = {
                 val intent = Intent(activity, DetailMovieActivity::class.java)
@@ -42,20 +43,9 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
 
-            homeViewModel.movies.observe(viewLifecycleOwner, { movies ->
-                if (movies != null) {
-                    when (movies) {
-                        is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
-                        is Resource.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            movieAdapter.setData(movies.data)
-                        }
-                        is Resource.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.tvError.visibility = View.VISIBLE
-                        }
-                    }
-                }
+            favoriteViewModel.favoriteMovies.observe(viewLifecycleOwner, { movies ->
+                movieAdapter.setData(movies)
+                binding.tvNoData.visibility = if (movies.isNotEmpty()) View.GONE else View.VISIBLE
             })
 
             with(binding.rvMovie) {
@@ -64,10 +54,5 @@ class HomeFragment : Fragment() {
                 adapter = movieAdapter
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
