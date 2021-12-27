@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movie Catalogue MADE Submission 1</string>
+    <string name="app_name">Movie Catalogue</string>
     <string name="txt_movie">Movie</string>
     <string name="txt_favorite">Favorite</string>
     <string name="txt_menu_favorite">Favorite</string>

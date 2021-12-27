@@ -2,11 +2,14 @@ package com.example.moviecataloguemadesubmission1.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.moviecataloguemadesubmission1.R
 import com.example.moviecataloguemadesubmission1.core.domain.model.Movie
 import com.example.moviecataloguemadesubmission1.databinding.ActivityDetailMovieBinding
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : AppCompatActivity() {
@@ -36,6 +39,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 tvTitle.text = it.title
                 tvOriginalTitle.text = it.originalTitle
                 tvReleaseDate.text = it.releaseDate
+                tvOverview.text = it.overview
             }
             with(binding) {
                 Glide.with(applicationContext)
@@ -49,6 +53,7 @@ class DetailMovieActivity : AppCompatActivity() {
             var favoriteStatus = it.isFavorite
             setFavoriteStatus(favoriteStatus)
             binding.fab.setOnClickListener {
+                installFavoriteModule()
                 favoriteStatus = !favoriteStatus
                 detailMovieViewModel.setFavoriteMovie(movieDetails, favoriteStatus)
                 setFavoriteStatus(favoriteStatus)
@@ -71,6 +76,24 @@ class DetailMovieActivity : AppCompatActivity() {
                     R.drawable.ic_favorite_black_24dp
                 )
             )
+        }
+    }
+
+    private fun installFavoriteModule() {
+        val splitInstallManager = SplitInstallManagerFactory.create(applicationContext)
+        val favoriteModule = "favorite"
+        if (!splitInstallManager.installedModules.contains(favoriteModule)) {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(favoriteModule)
+                .build()
+
+            splitInstallManager.startInstall(request)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Success installing module", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error installing module", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }

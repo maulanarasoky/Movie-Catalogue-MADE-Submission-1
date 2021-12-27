@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
-        android:theme="@style/Theme.TourismApp.AppBarOverlay">
+        android:theme="@style/Theme.MovieCatalogueMADESubmission1.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                     android:id="@+id/iv_backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:alpha="0.5"
                     android:contentDescription="@string/image_description"
                     android:scaleType="centerCrop" />
 
@@ -39,7 +40,7 @@
                     android:layout_height="200dp"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:contentDescription="@string/image_description"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitXY" />
 
             </FrameLayout>
 
@@ -48,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.TourismApp.PopupOverlay" />
+                app:popupTheme="@style/Theme.MovieCatalogueMADESubmission1.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -64,6 +65,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/txt_menu_favorite"
         app:layout_anchor="@id/app_bar"
+        app:tint="@null"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
