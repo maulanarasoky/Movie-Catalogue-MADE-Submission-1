@@ -10,6 +10,7 @@ import com.example.moviecataloguemadesubmission1.core.domain.repository.IMovieRe
 import com.example.moviecataloguemadesubmission1.core.utils.AppExecutors
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -38,10 +39,19 @@ val databaseModule = module {
 
 val networkModule = module {
     single {
+        val hostName = "api.themoviedb.org"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostName, "sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk=")
+            .add(hostName, "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
+            .add(hostName, "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=")
+            .add(hostName, "sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=")
+            .build()
+
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .build()
     }
 
