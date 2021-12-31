@@ -32,6 +32,9 @@ buildscript {
         lifecycle_version = "2.2.0"
 
         koin_version = "2.1.6"
+
+        sqlcipher_version = "4.4.0"
+        sqlite_version = "2.2.0"
     }
 
     repositories {
