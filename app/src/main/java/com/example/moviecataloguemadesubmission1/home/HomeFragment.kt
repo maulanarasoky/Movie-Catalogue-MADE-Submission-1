@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.moviecataloguemadesubmission1.R
 import com.example.moviecataloguemadesubmission1.core.data.Resource
 import com.example.moviecataloguemadesubmission1.core.ui.MovieAdapter
 import com.example.moviecataloguemadesubmission1.databinding.FragmentHomeBinding
@@ -24,7 +23,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
